@@ -1,0 +1,28 @@
+from dispNet import DispNet
+import torch
+from torch import nn
+from x2paddle.convert import pytorch2paddle
+
+def trans_to_paddle(model_dir=None, model_savedir="./"):
+    model = DispNet()
+    if not model_dir:
+        model.load_state_dict(torch.load(model_dir))
+    else:
+        model.weight_bias_init()
+    x = torch.randn(1, 6, 768, 384, requires_grad=False)
+    model.eval()
+    pytorch2paddle(
+        module=model,
+        save_dir=model_savedir,
+        input_examples=[x],
+        convert_to_lite=True,
+        lite_valid_places="amlogic_npu,arm",
+        lite_model_type="naive_buffer",
+        enable_code_optim=True
+    )
+
+
+
+if __name__ == "__main__":
+    model_savedir ='./model_paddle'
+    trans_to_paddle(model_savedir)
