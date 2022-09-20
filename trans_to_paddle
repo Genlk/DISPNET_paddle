@@ -5,7 +5,7 @@ from x2paddle.convert import pytorch2paddle
 
 def trans_to_paddle(model_dir=None, model_savedir="./"):
     model = DispNet()
-    if not model_dir:
+    if model_dir is not None:
         model.load_state_dict(torch.load(model_dir))
     else:
         model.weight_bias_init()
