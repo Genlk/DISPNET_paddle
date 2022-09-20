@@ -1,4 +1,4 @@
-from dispNet import DispNet
+from dispnet import DispNet
 import torch
 from torch import nn
 from x2paddle.convert import pytorch2paddle
